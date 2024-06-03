@@ -5,6 +5,7 @@ import birdRoutes from './routes/birdRoutes';
 const app = express();
 const port = 3000;
 
+// Routes.
 app.use(bodyParser.json());
 app.use('/api', birdRoutes);
 
