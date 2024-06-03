@@ -1,32 +1,44 @@
-import express from "express";
+import { Request, Response } from 'express';
+import { Bird } from '../models/bird';
 
-const PORT = 8000;
+let birds: Bird[] = [];
+let nextId = 1;
 
-class birdController {
-  public birdController() {}
+export const getBirds = (req: Request, res: Response) => {
+  res.json(birds);
+};
 
-  run() {
-    const app = express();
-    app.get("/", (req, res) => {
-      res.send("This is all I have so far!!!! ??");
-    });
-
-    // app.get("/", (req, res) => {
-    //   res.send("This is all I have so far!");
-    // });
-
-    // app.get("/", (req, res) => {
-    //   res.send("This is all I have so far!");
-    // });
-
-    // app.get("/", (req, res) => {
-    //   res.send("This is all I have so far!");
-    // });
-
-    app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
-    });
+export const getBird = (req: Request, res: Response) => {
+  const bird = birds.find(b => b.id === parseInt(req.params.id));
+  if (bird) {
+    res.json(bird);
+  } else {
+    res.status(404).send('Bird not found');
   }
-}
+};
 
-export default birdController;
+export const createBird = (req: Request, res: Response) => {
+  const newBird: Bird = { id: nextId++, ...req.body };
+  birds.push(newBird);
+  res.status(201).json(newBird);
+};
+
+export const updateBird = (req: Request, res: Response) => {
+  const index = birds.findIndex(b => b.id === parseInt(req.params.id));
+  if (index !== -1) {
+    birds[index] = { ...birds[index], ...req.body };
+    res.json(birds[index]);
+  } else {
+    res.status(404).send('Bird not found');
+  }
+};
+
+export const deleteBird = (req: Request, res: Response) => {
+  const index = birds.findIndex(b => b.id === parseInt(req.params.id));
+  if (index !== -1) {
+    const deletedBird = birds.splice(index, 1);
+    res.json(deletedBird);
+  } else {
+    res.status(404).send('Bird not found');
+  }
+};

@@ -1,25 +1,13 @@
+import express from 'express';
+import bodyParser from 'body-parser';
+import birdRoutes from './routes/birdRoutes';
 
+const app = express();
+const port = 3000;
 
-import birdController from "./controllers/birdController";
+app.use(bodyParser.json());
+app.use('/api', birdRoutes);
 
-new birdController().run();
-
-// app.get("/", (req, res) => {
-//   res.send("This is all I have so far!");
-// });
-
-// app.get("/", (req, res) => {
-//   res.send("This is all I have so far!");
-// });
-
-// app.get("/", (req, res) => {
-//   res.send("This is all I have so far!");
-// });
-
-// app.get("/", (req, res) => {
-//   res.send("This is all I have so far!");
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Server listening on port ${PORT}`);
-// });
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
