@@ -44,3 +44,7 @@ export const deleteBird = (req: Request, res: Response) => {
     res.status(404).send("Bird not found");
   }
 };
+
+export const testBird = (req: Request, res: Response) => {
+  res.json("This is a test!");
+};
